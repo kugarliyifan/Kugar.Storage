@@ -38,6 +38,16 @@ namespace Kugar.Storage.JDOSS
         {
             throw new NotImplementedException();
         }
+
+        public Task<ResultReturn<Stream>> ReadFileAsync(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetAbsoluteFilePath(string relativePath)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class JDOSSOption

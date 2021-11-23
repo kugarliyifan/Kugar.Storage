@@ -244,7 +244,7 @@ namespace Kugar.Storage
 
         }
 
-        public async Task<ResultReturn<Stream>> ReadFileAsync(string path)
+        public async override Task<ResultReturn<Stream>> ReadFileAsync(string path)
         {
             CosXmlServer cosXml = createServer();
              

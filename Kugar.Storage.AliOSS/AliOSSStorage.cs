@@ -149,7 +149,7 @@ namespace Kugar.Storage.AliOSS
             return null;
         }
 
-        public async Task<ResultReturn<Stream>> DownloadFile(string path)
+        public async override Task<ResultReturn<Stream>> ReadFileAsync(string path)
         {
             OssClient client = new OssClient(_endpoint, _accessKeyId, _accessKeySecret);
 
@@ -167,6 +167,11 @@ namespace Kugar.Storage.AliOSS
                 
                 return new FailResultReturn<Stream>(e);
             }
+        }
+
+        public override Task<string> GetAbsoluteFilePath(string relativePath)
+        {
+            throw new NotImplementedException();
         }
     }
 }
