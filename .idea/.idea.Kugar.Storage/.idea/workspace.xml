@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3db026f1-3cd9-41be-bd97-534ffaaa5253" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Kugar.Storage.JDOSS/Class1.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1klKaEcyVV7FhbYsvCVfZXVcgEW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="settings.editor.selected.configurable" value="MTConfigurable" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3db026f1-3cd9-41be-bd97-534ffaaa5253" name="Default Changelist" comment="" />
+      <created>1606269802498</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1606269802498</updated>
+      <workItem from="1606269812548" duration="371000" />
+      <workItem from="1606270283862" duration="104000" />
+      <workItem from="1606270459815" duration="106000" />
+      <workItem from="1606270693507" duration="168000" />
+      <workItem from="1606271176616" duration="1648000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="387" y="358" key="Rider.ProjectTemplateDialog.Size" timestamp="1606272813713">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="387" y="358" key="Rider.ProjectTemplateDialog.Size/0.0.1920.1040@0.0.1920.1040" timestamp="1606272813713" />
+    <state x="564" y="100" key="RiderGenerateDialog" timestamp="1606270325288">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="564" y="100" key="RiderGenerateDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606270325288" />
+    <state x="324" y="248" key="SettingsEditor" timestamp="1606271578325">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="324" y="248" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1606271578325" />
+  </component>
+</project>

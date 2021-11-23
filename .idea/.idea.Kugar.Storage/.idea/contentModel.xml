@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Administrator\AppData\Local\JetBrains\Rider2020.2\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Administrator\AppData\Local\JetBrains\Rider2020.2\resharper-host\Local\Transient\Rider\v202\SolutionCaches\_Kugar.Storage.-98993260.00" t="ExcludeRecursive" />
+    <e p="F:\Projects\Kugar.Storage" t="IncludeFlat">
+      <e p="Kugar.Storage" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="IStorage.cs" t="Include" />
+        <e p="Kugar.Storage.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Kugar.Storage.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Kugar.Storage.AliOSS" t="IncludeRecursive">
+        <e p="AliOSSStorage.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Kugar.Storage.AliOSS.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Kugar.Storage.AliOSS.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Kugar.Storage.JDOSS" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Class1.cs" t="Include" />
+        <e p="Kugar.Storage.JDOSS.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Kugar.Storage.JDOSS.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Kugar.Storage.Local" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Kugar.Storage.Local.csproj" t="IncludeRecursive" />
+        <e p="LocalStorage.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Kugar.Storage.Local.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Kugar.Storage.QiNiuOSS" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Class1.cs" t="Include" />
+        <e p="Kugar.Storage.QiNiuOSS.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Kugar.Storage.QiNiuOSS.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Kugar.Storage.sln" t="IncludeFlat" />
+      <e p="Kugar.Storage.TencentOSS" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Kugar.Storage.TencentOSS.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Kugar.Storage.TencentOSS.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="TencentOSSStorage.cs" t="Include" />
+      </e>
+      <e p="Kugar.Storage.UpYunOSS" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Class1.cs" t="Include" />
+        <e p="Kugar.Storage.UpYunOSS.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="Kugar.Storage.UpYunOSS.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
