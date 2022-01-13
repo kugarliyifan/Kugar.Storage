@@ -76,16 +76,72 @@ namespace Kugar.Storage
             return new SuccessResultReturn<string>(path);
         }
 
-        public override Task<bool> Exists(string path)
+        public override ResultReturn<string> StorageFile(string path, Stream stream, bool isAutoOverwrite = true)
         {
             var realPath = getRealFilePath(path);
 
-            return Task.FromResult(File.Exists(realPath));
+            if (File.Exists(realPath))
+            {
+                if (isAutoOverwrite)
+                {
+                    File.Delete(realPath);
+                }
+                else
+                {
+                    return new FailResultReturn<string>("文件已存在");
+                }
+            }
+
+            var folder = Path.GetDirectoryName(realPath);
+
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            var position = -1l;
+
+            if (stream.CanSeek)
+            {
+                position = stream.Position;
+            }
+
+
+            using (var fileStream = File.Create(realPath))
+            {
+                stream.CopyTo(fileStream);
+
+                fileStream.Flush();
+            }
+
+            if (stream.CanSeek)
+            {
+                stream.Position = position;
+            }
+
+            return new SuccessResultReturn<string>(path);
         }
 
-        public override async Task<ResultReturn<Stream>> ReadFileAsync(string path)
+        public override Task<bool> ExistsAsync(string path)
         {
-            var realPath=getRealFilePath(path);
+            return Task.FromResult(Exists(path));
+        }
+
+        public override bool Exists(string path)
+        {
+            var realPath = getRealFilePath(path);
+
+            return File.Exists(realPath);
+        }
+
+        public override Task<ResultReturn<Stream>> ReadFileAsync(string path)
+        {
+            return Task.FromResult(ReadFile(path));
+        }
+
+        public override ResultReturn<Stream> ReadFile(string path)
+        {
+            var realPath = getRealFilePath(path);
 
             if (File.Exists(realPath))
             {
@@ -118,9 +174,21 @@ namespace Kugar.Storage
             return realPath;
         }
 
-        public override async Task<string> GetAbsoluteFilePath(string relativePath)
+        public override string GetAbsoluteFilePath(string relativePath)
         {
-            if (await Exists(relativePath))
+            if (Exists(relativePath))
+            {
+                return Path.Join(_baseFolder, relativePath);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public override async Task<string> GetAbsoluteFilePathAsync(string relativePath)
+        {
+            if (Exists(relativePath))
             {
                 return Path.Join(_baseFolder, relativePath);
             }

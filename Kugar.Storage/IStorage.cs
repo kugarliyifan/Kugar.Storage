@@ -31,25 +31,63 @@ namespace Kugar.Storage
         Task<ResultReturn<string>> StorageFileAsync(string path, Stream stream, bool isAutoOverwrite = true);
 
         /// <summary>
+        /// 保存一个文件
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="stream"></param>
+        /// <param name="isAutoOverwrite"></param>
+        /// <returns></returns>
+        ResultReturn<string> StorageFile(string path, Stream stream, bool isAutoOverwrite = true);
+
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="data"></param>
+        /// <param name="isAutoOverwrite"></param>
+        /// <returns></returns>
+        ResultReturn<string> StorageFile(string path, byte[] data, bool isAutoOverwrite = true);
+
+        /// <summary>
         /// 读取文件
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         Task<ResultReturn<Stream>> ReadFileAsync(string path);
 
+        ResultReturn<Stream> ReadFile(string path);
+
+        Task<ResultReturn<byte[]>> ReadFileBytesAsync(string path);
+
+        ResultReturn<byte[]> ReadFileBytes(string path);
+
         /// <summary>
         /// 获取文件绝对路径地址,如果是本地的Storage则为本地地址,如果是OSS的Storage则为web地址
         /// </summary>
         /// <param name="relativePath"></param>
         /// <returns></returns>
-        Task<string> GetAbsoluteFilePath(string relativePath);
+        Task<string> GetAbsoluteFilePathAsync(string relativePath);
+
+        /// <summary>
+        /// 获取文件绝对路径地址,如果是本地的Storage则为本地地址,如果是OSS的Storage则为web地址
+        /// </summary>
+        /// <param name="relativePath"></param>
+        /// <returns></returns>
+        string GetAbsoluteFilePath(string relativePath);
 
         /// <summary>
         /// 判断文件是否存在
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        Task<bool> Exists(string path);
+        Task<bool> ExistsAsync(string path);
+
+        /// <summary>
+        /// 判断文件是否存在
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        bool Exists(string path);
 
         string Name { set; get; }
     }
@@ -95,10 +133,62 @@ namespace Kugar.Storage
         public abstract Task<ResultReturn<string>> StorageFileAsync(string path, Stream stream,
             bool isAutoOverwrite = true);
 
-        public abstract Task<bool> Exists(string path);
+        public abstract ResultReturn<string> StorageFile(string path, Stream stream, bool isAutoOverwrite = true);
+
+        public ResultReturn<string> StorageFile(string path, byte[] data, bool isAutoOverwrite = true)
+        {
+            using (var ds = new ByteStream(data))
+            {
+                return StorageFile(path, ds, isAutoOverwrite);
+            }
+        }
+
+        public abstract Task<bool> ExistsAsync(string path);
+         
+        public abstract  bool Exists(string path);
 
         public abstract Task<ResultReturn<Stream>> ReadFileAsync(string path);
-        public abstract Task<string> GetAbsoluteFilePath(string relativePath);
+
+        public abstract ResultReturn<Stream> ReadFile(string path);
+
+        public async Task<ResultReturn<byte[]>> ReadFileBytesAsync(string path)
+        {
+            var ret=await ReadFileAsync(path);
+
+            if (ret.IsSuccess)
+            {
+                using (var stream=ret.ReturnData)
+                {
+                    var data= await stream.ReadAllBytesAsync();
+
+                    return new SuccessResultReturn<byte[]>(data);
+                }
+            }
+
+            return ret.Cast((byte[])null);
+        }
+
+        public ResultReturn<byte[]> ReadFileBytes(string path)
+        {
+            var ret = ReadFile(path);
+
+            if (ret.IsSuccess)
+            {
+                using (var stream = ret.ReturnData)
+                {
+                    var data = stream.ReadAllBytes();
+
+                    return new SuccessResultReturn<byte[]>(data);
+                }
+            }
+
+            return ret.Cast((byte[])null);
+        }
+
+        public abstract Task<string> GetAbsoluteFilePathAsync(string relativePath);
+
+        public abstract string GetAbsoluteFilePath(string relativePath);
+
 
         public virtual string Name { get; set; }
     }
@@ -149,9 +239,59 @@ namespace Kugar.Storage
             }
         }
 
-        public async Task<bool> Exists(string path)
+        public ResultReturn<string> StorageFile(string path, Stream stream, bool isAutoOverwrite = true)
         {
-            var result = await Task.WhenAll(_storages.Select(x => x.Exists(path)));
+            var result = _storages.Select(x => x.StorageFile(path, stream, isAutoOverwrite)).ToArrayEx();
+
+            if (!result.All(x => x.IsSuccess))
+            {
+                return new FailResultReturn<string>("上传失败");
+            }
+
+            if (_returnUrlIndex > 0)
+            {
+                return result[_returnUrlIndex];
+            }
+            else
+            {
+                return result[0];
+            }
+        }
+
+        public ResultReturn<string> StorageFile(string path, byte[] data, bool isAutoOverwrite = true)
+        {
+            var result = _storages.Select(x => x.StorageFile(path, data, isAutoOverwrite)).ToArrayEx();
+
+            if (!result.All(x => x.IsSuccess))
+            {
+                return new FailResultReturn<string>("上传失败");
+            }
+
+            if (_returnUrlIndex > 0)
+            {
+                return result[_returnUrlIndex];
+            }
+            else
+            {
+                return result[0];
+            }
+        }
+
+        public async Task<bool> ExistsAsync(string path)
+        {
+            var result = await Task.WhenAll(_storages.Select(x => x.ExistsAsync(path)));
+
+            if (!result.All(x => x))
+            {
+                return false;
+            }
+
+            return true;
+        }
+         
+        public bool Exists(string path)
+        {
+            var result =_storages.Select(x => x.Exists(path)).ToArrayEx();
 
             if (!result.All(x => x))
             {
@@ -205,7 +345,7 @@ namespace Kugar.Storage
         {
             foreach(var storage in _storages)
             {
-                if (await storage.Exists(path))
+                if (await storage.ExistsAsync(path))
                 {
                     return await storage.ReadFileAsync(path);
                 }
@@ -214,13 +354,65 @@ namespace Kugar.Storage
             return new FailResultReturn<Stream>("文件不存在");
         }
 
-        public async Task<string> GetAbsoluteFilePath(string relativePath)
+        public ResultReturn<Stream> ReadFile(string path)
         {
             foreach (var storage in _storages)
             {
-                if (await storage.Exists(relativePath))
+                if (storage.Exists(path))
                 {
-                    return await storage.GetAbsoluteFilePath(relativePath);
+                    return storage.ReadFile(path);
+                }
+            }
+
+            return new FailResultReturn<Stream>("文件不存在");
+        }
+
+        public async Task<ResultReturn<byte[]>> ReadFileBytesAsync(string path)
+        {
+            foreach (var storage in _storages)
+            {
+                if (await storage.ExistsAsync(path))
+                {
+                    return await storage.ReadFileBytesAsync(path);
+                }
+            }
+
+            return new FailResultReturn<byte[]>("文件不存在");
+        }
+
+        public ResultReturn<byte[]> ReadFileBytes(string path)
+        {
+            foreach (var storage in _storages)
+            {
+                if (storage.Exists(path))
+                {
+                    return storage.ReadFileBytes(path);
+                }
+            }
+
+            return new FailResultReturn<byte[]>("文件不存在");
+        }
+
+        public async Task<string> GetAbsoluteFilePathAsync(string relativePath)
+        {
+            foreach (var storage in _storages)
+            {
+                if (await storage.ExistsAsync(relativePath))
+                {
+                    return await storage.GetAbsoluteFilePathAsync(relativePath);
+                }
+            }
+
+            throw new FileNotFoundException();
+        }
+
+        public string GetAbsoluteFilePath(string relativePath)
+        {
+            foreach (var storage in _storages)
+            {
+                if (storage.Exists(relativePath))
+                {
+                    return storage.GetAbsoluteFilePath(relativePath);
                 }
             }
 
